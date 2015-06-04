@@ -7,5 +7,5 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/3.Scene/Pokemon.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/3.Scene/Menu.unity

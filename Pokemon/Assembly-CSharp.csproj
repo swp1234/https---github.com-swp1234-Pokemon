@@ -48,9 +48,10 @@
   <ItemGroup>
      <Compile Include="Assets\1.Script\Changeable.cs" />
      <Compile Include="Assets\1.Script\Character.cs" />
-     <Compile Include="Assets\1.Script\NewBehaviourScript.cs" />
      <Compile Include="Assets\1.Script\Player.cs" />
      <Compile Include="Assets\1.Script\Pokemon.cs" />
+     <Compile Include="Assets\1.Script\PokemonMgr.cs" />
+     <Compile Include="Assets\1.Script\Skill.cs" />
      <Compile Include="Assets\1.Script\SmoothFollow.cs" />
      <Compile Include="Assets\1.Script\Tradeable.cs" />
      <Compile Include="Assets\1.Script\Trainer.cs" />
