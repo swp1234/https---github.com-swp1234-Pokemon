@@ -3,20 +3,22 @@ using System.Collections;
 
 public class Pokemon : MonoBehaviour {
 
-	
-	private int level;
 	public string name;
+	private int level;
 	private int atk;
 	private int def;
 	private int speed;
 	private int hp;
 	public int speciesHP,speciesAtk,speciesDef,speciesSpeed;
+	private int levelRange = 5;
+	public int captureRate;
 	private bool isDead;
 	public  Skill[] skill;
-	public Sprite spr;
-	public int levelRange;
+	public Sprite[] sprite;
+	public Type type;
+	public bool isRevolution;
 
-	enum Type{
+	public enum Type{
 		water,
 		fire,
 		grass,
@@ -47,4 +49,5 @@ public class Pokemon : MonoBehaviour {
 		this.def = this.level * ( (c + 70 ) /50)+5;
 		this.speed = this.level * ( (d + 70 ) /50)+ 5;
 	}
+
 }
