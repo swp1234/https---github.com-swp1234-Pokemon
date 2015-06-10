@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿	using UnityEngine;
 using System.Collections;
 
 public class Trainer : MonoBehaviour,Changeable {
@@ -9,38 +9,68 @@ public class Trainer : MonoBehaviour,Changeable {
 	private Vector3 pos;
 	private Vector3 playerPos;
 
-	// 전투유무 판단 
-	private bool isBattle;
-	//포켓몬 
-	public GameObject[] pokemon;
+	//private int stageNum;
+	public int order;
 
+	// 전투유무 판단 
+	public bool isFight;
+	public bool isFought;
+	//포켓몬 
+	public Pokemon[] pokemon;
+	public Pokemon curPokemon;
+	private int stageNo;
 	// Use this for initialization
+	void Awake()
+	{
+		DontDestroyOnLoad(this.gameObject);
+	}
+
 	void Start () {
 		tr = this.gameObject.GetComponent<Transform>();
 		pos = tr.position;
 		playerPos = playerTr.position;
-		isBattle = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-		if(Mathf.Abs( pos.x - playerPos.x) <= 0.16 || Mathf.Abs(pos.y - playerPos.y) <= 0.16)
+		stageNo = PlayerPrefs.GetInt("stageNo");
+		if(PlayerPrefs.GetInt("Trainer"+order+stageNo,0) != 1)
+			isFought = false;
+		else
+			isFought = true;
+		
+		playerTr = GameObject.Find("Player").GetComponent<Transform>();
+		playerPos = playerTr.position;
+		if(Vector3.Distance(pos,playerPos) <= 1.35f)
 		{
-			if(Input.GetKey(KeyCode.Z) && isBattle == false)
+			if(Input.GetKey(KeyCode.Z) && isFought == false && isFight == false)
 			{
+				isFight  = true; 
 				battle();
 			}
 		}
+
 	}
 
 	void battle()
 	{
+		curPokemon = Instantiate(pokemon[0]);
+		GameObject[] s = GameObject.FindGameObjectsWithTag("enemy");
+		foreach(GameObject c in s)
+		{
+			if(c.GetComponent<Trainer>().isFight != true)
+			{
+				Destroy(c);
+			}
+		}
+		GameObject.Find("Player").GetComponent<Player>().battle(1);
+	}
 
-
-
-
-		isBattle  = true; 
+	public void battleEnd()
+	{
+		PlayerPrefs.SetInt("Trainer"+order+stageNo,1);
+		Destroy(GameObject.Find ("PokemonMgr"));
+		Destroy(this.gameObject);
 	}
 
 	public virtual void change()

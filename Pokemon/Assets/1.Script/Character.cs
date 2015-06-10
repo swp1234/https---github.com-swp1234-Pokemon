@@ -11,10 +11,11 @@ public class Character : MonoBehaviour {
 	private Vector3 playerPos;
 
 	// 각 기능 
-	public GameObject panel;
+	public Canvas centerCanvas;
 
 	// Use this for initialization
 	void Start () {
+		centerCanvas.enabled = false;
 		tr = this.gameObject.GetComponent<Transform>();
 		pos = tr.position;
 		playerPos = playerTr.position;
@@ -22,21 +23,24 @@ public class Character : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		dialog();
+		if(GameObject.Find("Player").GetComponent<Player>().isBattle == false)
+		{
+			dialog();
+		}
 	}
 
 	 public void dialog()
 	{
-		if(Mathf.Abs( pos.x - playerPos.x) <= 0.16 || Mathf.Abs(pos.y - playerPos.y) <= 0.16)
+		if(Mathf.Abs( pos.x - playerPos.x) <= 2.0f || Mathf.Abs(pos.y - playerPos.y) <= 1.3f)
 		{
 			if(Input.GetKey(KeyCode.Z))
 			{
-				panel.SetActive(true);
+				centerCanvas.enabled = true;
 			}
 
 			if(Input.GetKey(KeyCode.X))
 			   {
-				panel.SetActive(false);
+				centerCanvas.enabled = false;
 			}
 		}
 	}
