@@ -23,7 +23,8 @@ public class Character : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(GameObject.Find("Player").GetComponent<Player>().isBattle == false)
+		playerPos = playerTr.position;
+		if(GameObject.Find("Player").GetComponent<Player>().isBattle == false &&( pos.x - playerPos.x)<= -0.055f && (pos.x-playerPos.x) >= -0.56f && (pos.y - playerPos.y) <=1.0f && (pos.y-playerPos.y) >=0.98f)
 		{
 			dialog();
 		}
@@ -31,16 +32,30 @@ public class Character : MonoBehaviour {
 
 	 public void dialog()
 	{
-		if(Mathf.Abs( pos.x - playerPos.x) <= 2.0f || Mathf.Abs(pos.y - playerPos.y) <= 1.3f)
+		if(centerCanvas.enabled == true)
+		{
+			if(Input.GetKey(KeyCode.Space))
+			{
+				for(int i = 0; i<GameObject.Find("Player").GetComponent<Player>().size;i++)
+				{
+					if(GameObject.Find("Player").GetComponent<Player>().pokemon[i] !=null)
+					{
+						string s = GameObject.Find("Player").GetComponent<Player>().pokemon[i].name;
+						PlayerPrefs.SetInt(s+"(Clone)hp",PlayerPrefs.GetInt(s+"(Clone)maxHp"));
+						centerCanvas.enabled = false;
+					}
+				}
+			}
+			if(Input.GetKey(KeyCode.X))
+			{
+				centerCanvas.enabled = false;
+			}
+		}
+		else 
 		{
 			if(Input.GetKey(KeyCode.Z))
 			{
 				centerCanvas.enabled = true;
-			}
-
-			if(Input.GetKey(KeyCode.X))
-			   {
-				centerCanvas.enabled = false;
 			}
 		}
 	}

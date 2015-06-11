@@ -33,6 +33,7 @@ public class BattleMgr : MonoBehaviour {
 	private bool isTurn;
 	private bool isFightRender;
 	private bool skillUsed;
+	//private bool isLevelUp;
 
 	void Start()
 	{
@@ -66,6 +67,7 @@ public class BattleMgr : MonoBehaviour {
 					if(isBattle == true)
 				{
 					getRender("PokemonMgr");
+					/*
 					GameObject[] s = GameObject.FindGameObjectsWithTag("enemy");
 					foreach(GameObject c in s)
 					{
@@ -74,6 +76,7 @@ public class BattleMgr : MonoBehaviour {
 							Destroy(c);
 						}
 					}
+					*/
 				}
 				else
 					getRender("Trainer");
@@ -224,25 +227,43 @@ public class BattleMgr : MonoBehaviour {
 		int c = player.getHP();
 		int d = player.getMaxHP();
 		int e = player.getExp();
-		pHp.text = "" + c + "/"  +d;
-		eHp.text = "" + a + "/" + b;
-
 		if ( a<= 0)
 		{
-			player.expPlus(Random.Range(10,36));
-			battleEnd();
+			int f =Random.Range(50,70);
+			player.expPlus(f);
+			e+=f;
+
+			if(playerBattle)
+			{
+				if((GameObject.Find("Trainer").GetComponent<Trainer>().change()))
+				  {
+					GameObject.Find("Trainer").GetComponent<Trainer>().battle();
+				}
+				else
+				{
+					battleEnd();
+				}
+			}
+			else 
+			{
+					battleEnd();
+			}
 		}
 		
 		if( e>=100)
 		{
-			player.leveUp();
 			e-=100;
+			player.setExp(player.name,e);
+			player.leveUp(player.name);
 		}
 		
 		if(c<=0)
 		{
-			Application.LoadLevel(Application.loadedLevel);
+			player.saveAbility(player.name);
 		}
+
+		pHp.text = "" + c + "/"  +d;
+		eHp.text = "" + a + "/" + b;
 
 		enemyHp.fillAmount = (float)a/b;
 		playerHp.fillAmount = (float)c/d;
@@ -414,7 +435,6 @@ public class BattleMgr : MonoBehaviour {
 		int damage =(int)(( skill.power * attacker.getAtk() *(int)( attacker.getLevel() * 0.4 +2)/defender.getDef()/50+2) * type) ;
 		defender.getDamage(damage);
 		isInfo = false;
-		Debug.Log (skill.name);
 	}
 
 	float typePower(Pokemon attacker,Pokemon defender)

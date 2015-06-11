@@ -4,8 +4,7 @@ using System.Collections;
 public class Pokemon : MonoBehaviour {
 
 	private string name;
-	[HideInInspector]
-	private int level;
+	public int level;
 	private int atk;
 	private int def;
 	private int speed;
@@ -24,6 +23,7 @@ public class Pokemon : MonoBehaviour {
 	public bool domesticated;
 	private int exp;
 	private int size;
+	//public bool isLevelUp;
 
 	public enum Type{
 		water,
@@ -75,7 +75,10 @@ public class Pokemon : MonoBehaviour {
 
 	void Update()
 	{
-		Debug.Log (stageNo);
+		if(domesticated)
+		{
+			Debug.Log (this.level);
+		}
 	}
 	
 	// Update is called once per frame
@@ -97,7 +100,7 @@ public class Pokemon : MonoBehaviour {
 
 	void setAbility(int b, int c, int d)
 	{
-		maxHp =  this.level * ( (speciesHP + 70 ) /20)+35;
+	//	maxHp =  this.level * ( (speciesHP + 70 ) /20)+35;
 		this.atk = this.level * ( (b + 70 ) /50)+5;
 		this.def = this.level * ( (c + 70 ) /50)+5;
 		this.speed = this.level * ( (d + 70 ) /50)+ 5;
@@ -156,32 +159,41 @@ public class Pokemon : MonoBehaviour {
 		return exp;
 	}
 	
-	public  void leveUp()
+	public  void leveUp(string prefname)
 	{
-		this.level++;
+		this.level+=1;
+		PlayerPrefs.SetInt(prefname+"level",this.level);
 	}
 
-	public void setExp(string prefName)
+	public void getExp(string prefName)
 	{
 		exp = PlayerPrefs.GetInt(prefName+"exp",0);
 	}
 
-	private void setLevel(string prefName)
+	public void setExp(string prefName,int p)
+	{
+		this.exp = p;
+		 PlayerPrefs.SetInt(prefName+"exp",p);
+	}
+
+	private void getLevel(string prefName)
 	{
 		this.level = PlayerPrefs.GetInt(prefName+"level",Random.Range(levelRange,2*levelRange));
 	}
-	
-	public void setHp(string prefName)
+
+
+	public void getHp(string prefName)
 	{
 		this.hp = PlayerPrefs.GetInt(prefName+"hp",(this.level * ( (speciesHP + 70 ) /20)) + 35);
+		this.maxHp = PlayerPrefs.GetInt(prefName+"maxHp",(this.level * ( (speciesHP + 70 ) /20)) + 35);
 	}
 
 
 	public void setAbility(string a)
 	{
-		setExp(a);
-		setLevel(a);
-		setHp(a);
+		getExp(a);
+		getLevel(a);
+		getHp(a);
 	}
 	public void getDamage(int a)
 	{
@@ -190,9 +202,7 @@ public class Pokemon : MonoBehaviour {
 
 	public void saveAbility(string prefName)
 	{
-		Debug.Log(this.level);
-		Debug.Log (this.exp);
-		Debug.Log(this.hp);
+		PlayerPrefs.SetInt(prefName+"maxHp",this.maxHp);
 		PlayerPrefs.SetInt(prefName+"level",this.level);
 		PlayerPrefs.SetInt(prefName+"exp",this.exp);
 		PlayerPrefs.SetInt(prefName+"hp",this.hp);

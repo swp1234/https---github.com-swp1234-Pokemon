@@ -21,7 +21,6 @@ public class StageMgr : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("isinit : " + isInit);
 		if(boss.GetComponent<Trainer>().isFought == true)
 		{
 			if(!isInit)

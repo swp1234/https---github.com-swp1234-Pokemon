@@ -18,7 +18,9 @@ public class Trainer : MonoBehaviour,Changeable {
 	//포켓몬 
 	public Pokemon[] pokemon;
 	public Pokemon curPokemon;
+	private int curNo;
 	private int stageNo;
+	public float a;
 	// Use this for initialization
 	void Awake()
 	{
@@ -26,6 +28,7 @@ public class Trainer : MonoBehaviour,Changeable {
 	}
 
 	void Start () {
+		curNo = 1;
 		tr = this.gameObject.GetComponent<Transform>();
 		pos = tr.position;
 		playerPos = playerTr.position;
@@ -33,6 +36,8 @@ public class Trainer : MonoBehaviour,Changeable {
 	
 	// Update is called once per frame
 	void Update () {
+		pos = tr.position;
+		a = Vector3.Distance(pos,playerPos);
 		stageNo = PlayerPrefs.GetInt("stageNo");
 		if(PlayerPrefs.GetInt("Trainer"+order+stageNo,0) != 1)
 			isFought = false;
@@ -52,9 +57,9 @@ public class Trainer : MonoBehaviour,Changeable {
 
 	}
 
-	void battle()
+	public void battle()
 	{
-		curPokemon = Instantiate(pokemon[0]);
+		curPokemon = Instantiate(pokemon[curNo-1]);
 		GameObject[] s = GameObject.FindGameObjectsWithTag("enemy");
 		foreach(GameObject c in s)
 		{
@@ -73,7 +78,13 @@ public class Trainer : MonoBehaviour,Changeable {
 		Destroy(this.gameObject);
 	}
 
-	public virtual void change()
+	public virtual bool change()
 	{
+		if( (++curNo) <=pokemon.Length )
+		{	
+			return true;
+		}
+		else
+			return false;
 	}
 }

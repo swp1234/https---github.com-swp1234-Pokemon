@@ -59,11 +59,10 @@ public class Player : Trainer,Tradeable {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!isBattle)
+		if(!isBattle && !playerBattle)
 		{
 			move();
 		}
-	
 	}
 
 	void move()
@@ -214,8 +213,9 @@ public class Player : Trainer,Tradeable {
 	}
 
 
-	public override void change()
+	public override bool change()
 	{
+		return true;
 	}
 
 	void calculateWalk() {
@@ -272,23 +272,23 @@ public class Player : Trainer,Tradeable {
 
 	void transport()
 	{
-		if(playerTr.position == new  Vector3(2.775f,-2.828f,-2.0f))
+		if(playerTr.position.x >= 2.7f && playerTr.position.x<=2.8f && playerTr.position.y <=-2.8f && playerTr.position.y >= -2.83f )
 		{
 			mainCamera.GetComponent<SmoothFollow>().enabled =false;
 			mainCamera.enabled = false;
 			shopCamera.enabled = true;
-			playerTr.position = new Vector3(-72.478f,46.277f,-2.0f);
+			playerTr.position = new Vector3(-54.485f,27.83f,-2.0f);
 		}
 
-		if(playerTr.position == new  Vector3(9.495001f,-5.876f,-2.0f))
+		if(playerTr.position.x >= 9.49f && playerTr.position.x<=9.50f && playerTr.position.y <=-5.87f && playerTr.position.y >= -5.90f)
 		{
 			mainCamera.GetComponent<SmoothFollow>().enabled =false;
 			mainCamera.enabled = false;
 			centerCamera.enabled = true;
-			playerTr.position = new Vector3(67.1f,32.58f,-2.0f);
+			playerTr.position = new Vector3(67.126f,27.256f,-2.0f);
 		}
 
-		if(playerTr.position.x >66.65f&&playerTr.position.x <= 68.0f && playerTr.position.y <32.58f)
+		if(playerTr.position.x >67.05f&&playerTr.position.x <= 68.0f && playerTr.position.y <27.256f)
 		{
 			playerTr.position = new  Vector3(9.495001f,-6.4856f,-2.0f);
 			centerCamera.enabled = false;	
@@ -296,7 +296,7 @@ public class Player : Trainer,Tradeable {
 			mainCamera.GetComponent<SmoothFollow>().enabled =true;
 		}
 
-		if(playerTr.position.x <=-72.478f && playerTr.position.y <46.277f)
+		if(playerTr.position.x <=-53.6f &&playerTr.position.x >-54.5f&& playerTr.position.y <27.83f)
 		{
 			playerTr.position = new Vector3(2.775f,-3.4376f,-2.0f);
 			shopCamera.enabled = false;
